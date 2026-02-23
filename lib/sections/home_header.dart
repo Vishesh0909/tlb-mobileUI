@@ -31,7 +31,7 @@ class HomeHeader extends StatelessWidget {
               ),
             ),
           ),
-          // Semi-transparent golden overlay for readability
+          // Semi-transparent golden overlay
           Positioned.fill(
             child: Container(
               decoration: BoxDecoration(
@@ -53,7 +53,7 @@ class HomeHeader extends StatelessWidget {
           SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              padding: const EdgeInsets.fromLTRB(12, 16, 12, 0),
               child: Column(
                 children: [
                   _buildGreetingRow(),
@@ -61,7 +61,7 @@ class HomeHeader extends StatelessWidget {
                   _buildSearchBar(),
                   const SizedBox(height: 16),
                   _buildCategoryTabs(),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 14),
                 ],
               ),
             ),
@@ -89,7 +89,6 @@ class HomeHeader extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 6),
-                // Waving hand image
                 Image.asset(
                   'assets/images/wave_hand.png',
                   width: 28,
@@ -138,7 +137,6 @@ class HomeHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10),
-            // TLB Logo as profile avatar
             Container(
               width: 38,
               height: 38,
@@ -163,7 +161,7 @@ class HomeHeader extends StatelessWidget {
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF0C8), // Light golden inner color
+        color: const Color(0xFFFFF0C8),
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.white, width: 2),
       ),
@@ -176,7 +174,7 @@ class HomeHeader extends StatelessWidget {
             'Search...',
             style: GoogleFonts.poppins(
               fontSize: 14,
-              color: const Color(0xFF9E9E9E), // Greyish placeholder
+              color: const Color(0xFF9E9E9E),
             ),
           ),
         ],
@@ -193,67 +191,60 @@ class HomeHeader extends StatelessWidget {
       {'image': 'assets/images/spaces.png', 'label': 'Spaces', 'selected': false},
     ];
 
-    return SizedBox(
-      height: 100,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: tabs.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 14),
-        itemBuilder: (context, index) {
-          final tab = tabs[index];
-          final isSelected = tab['selected'] as bool;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 68,
-                height: 68,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: tabs.map((tab) {
+        final isSelected = tab['selected'] as bool;
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected
+                    ? AppColors.primary
+                    : const Color(0xFFFFF0C8).withOpacity(0.7),
+                border: Border.all(
                   color: isSelected
-                      ? AppColors.primary
-                      : const Color(0xFFFFF0C8).withOpacity(0.7),
-                  border: Border.all(
-                    color: isSelected
-                        ? Colors.white
-                        : const Color(0xFFFFD54F),
-                    width: isSelected ? 2.5 : 1.5,
-                  ),
-                  boxShadow: isSelected
-                      ? [
-                          BoxShadow(
-                            color: AppColors.primary.withOpacity(0.3),
-                            blurRadius: 8,
-                            offset: const Offset(0, 3),
-                          ),
-                        ]
-                      : null,
+                      ? Colors.white
+                      : const Color(0xFFFFD54F),
+                  width: isSelected ? 2.5 : 1.5,
                 ),
-                child: ClipOval(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Image.asset(
-                      tab['image'] as String,
-                      fit: BoxFit.contain,
-                      // No color tint — display images in their original colors
-                    ),
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: AppColors.primary.withOpacity(0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 3),
+                        ),
+                      ]
+                    : null,
+              ),
+              child: ClipOval(
+                child: Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Image.asset(
+                    tab['image'] as String,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
-              const SizedBox(height: 6),
-              Text(
-                tab['label'] as String,
-                style: GoogleFonts.poppins(
-                  fontSize: 12,
-                  fontWeight:
-                      isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: AppColors.textPrimary,
-                ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              tab['label'] as String,
+              style: GoogleFonts.poppins(
+                fontSize: 11,
+                fontWeight:
+                    isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: AppColors.textPrimary,
               ),
-            ],
-          );
-        },
-      ),
+            ),
+          ],
+        );
+      }).toList(),
     );
   }
 }
