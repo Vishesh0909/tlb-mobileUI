@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/app_colors.dart';
+import '../screens/search_screen.dart';
+import '../screens/notification_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/location_screen.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -56,9 +60,9 @@ class HomeHeader extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(12, 16, 12, 0),
               child: Column(
                 children: [
-                  _buildGreetingRow(),
+                  _buildGreetingRow(context),
                   const SizedBox(height: 14),
-                  _buildSearchBar(),
+                  _buildSearchBar(context),
                   const SizedBox(height: 16),
                   _buildCategoryTabs(),
                   const SizedBox(height: 14),
@@ -71,7 +75,7 @@ class HomeHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildGreetingRow() {
+  Widget _buildGreetingRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -97,57 +101,78 @@ class HomeHeader extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 2),
-            Row(
-              children: [
-                const Icon(
-                  Icons.location_on,
-                  size: 16,
-                  color: AppColors.textPrimary,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  'The Palm Springs, DLF ...',
-                  style: GoogleFonts.poppins(
-                    fontSize: 13,
+            // Location row — tappable
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const LocationScreen()),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.location_on,
+                    size: 16,
                     color: AppColors.textPrimary,
                   ),
-                ),
-                const SizedBox(width: 2),
-                const Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 18,
-                  color: AppColors.blue,
-                ),
-              ],
+                  const SizedBox(width: 4),
+                  Text(
+                    'The Palm Springs, DLF ...',
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  const SizedBox(width: 2),
+                  const Icon(
+                    Icons.keyboard_arrow_down,
+                    size: 18,
+                    color: AppColors.blue,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
         Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.3),
-                shape: BoxShape.circle,
+            // Bell icon — Notifications
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const NotificationScreen()),
               ),
-              child: const Icon(
-                Icons.notifications_outlined,
-                size: 22,
-                color: AppColors.textPrimary,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.3),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.notifications_outlined,
+                  size: 22,
+                  color: AppColors.textPrimary,
+                ),
               ),
             ),
             const SizedBox(width: 10),
-            Container(
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
+            // Profile avatar
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProfileScreen()),
               ),
-              child: ClipOval(
-                child: Image.asset(
-                  'assets/images/tlb_logo.png',
-                  fit: BoxFit.cover,
+              child: Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                ),
+                child: ClipOval(
+                  child: Image.asset(
+                    'assets/images/tlb_logo.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -157,27 +182,33 @@ class HomeHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildSearchBar() {
-    return Container(
-      height: 48,
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFF0C8),
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white, width: 2),
+  Widget _buildSearchBar(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const SearchScreen()),
       ),
-      child: Row(
-        children: [
-          const SizedBox(width: 16),
-          const Icon(Icons.search, color: Colors.black, size: 22),
-          const SizedBox(width: 10),
-          Text(
-            'Search...',
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              color: const Color(0xFF9E9E9E),
+      child: Container(
+        height: 48,
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF0C8),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: Colors.white, width: 2),
+        ),
+        child: Row(
+          children: [
+            const SizedBox(width: 16),
+            const Icon(Icons.search, color: Colors.black, size: 22),
+            const SizedBox(width: 10),
+            Text(
+              'Search...',
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                color: const Color(0xFF9E9E9E),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
