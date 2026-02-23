@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../core/app_colors.dart';
 import '../models/event_model.dart';
+import '../screens/event_detail_screen.dart';
 
 class TrendingCard extends StatefulWidget {
   final List<EventModel> events;
@@ -57,7 +58,12 @@ class _TrendingCardState extends State<TrendingCard> {
               final event = widget.events[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
+                child: GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => EventDetailScreen(event: event)),
+                  ),
+                  child: Container(
                   decoration: BoxDecoration(
                     color: AppColors.cardBackground,
                     borderRadius: BorderRadius.circular(16),
@@ -171,6 +177,7 @@ class _TrendingCardState extends State<TrendingCard> {
                         ),
                       ),
                     ],
+                  ),
                   ),
                 ),
               );

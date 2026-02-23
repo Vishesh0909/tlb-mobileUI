@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/app_colors.dart';
 import '../models/event_model.dart';
+import '../screens/event_detail_screen.dart';
 
 class EventCardWithPrice extends StatelessWidget {
   final EventModel event;
@@ -15,7 +16,12 @@ class EventCardWithPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => EventDetailScreen(event: event)),
+      ),
+      child: Container(
       width: width,
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
@@ -140,6 +146,7 @@ class EventCardWithPrice extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }
