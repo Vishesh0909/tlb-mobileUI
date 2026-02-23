@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../core/app_colors.dart';
 import '../data/dummy_data.dart';
 import '../widgets/banner_carousel.dart';
@@ -21,135 +20,115 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentNavIndex = 0;
+  final ScrollController _scrollController = ScrollController();
+  Color _statusBarColor = const Color(0xFFFFC107);
+
+  // Match the header overlay gradient
+  static const Color _colorTop = Color(0xFFFFC107);
+  static const Color _colorBottom = Color(0xFFFFB300);
+
+  // Approximate height of the golden header section
+  static const double _headerHeight = 250.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    final offset = _scrollController.offset;
+    final double t = (offset / _headerHeight).clamp(0.0, 1.0);
+    final newColor = Color.lerp(_colorTop, _colorBottom, t)!;
+
+    if (newColor != _statusBarColor) {
+      setState(() {
+        _statusBarColor = newColor;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header with search and category tabs
-            const HomeHeader(),
+      body: Stack(
+        children: [
+          // Scrollable content
+          SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Header with search and category tabs
+                const HomeHeader(),
 
-            const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-            // Featured Banner Carousel
-            BannerCarousel(
-              events: DummyData.bannerEvents,
-              height: 220,
+                // Featured Banner Carousel
+                BannerCarousel(
+                  events: DummyData.bannerEvents,
+                  height: 220,
+                ),
+
+                const SizedBox(height: 24),
+
+                // Popular Categories
+                const PopularCategoriesSection(),
+
+                const SizedBox(height: 28),
+
+                // Spotlight
+                const SpotlightSection(),
+
+                const SizedBox(height: 28),
+
+                // Best for This Week
+                const BestForWeekSection(),
+
+                const SizedBox(height: 28),
+
+                // Near You
+                const NearYouSection(),
+
+                const SizedBox(height: 4),
+
+                // Trending Now
+                const TrendingNowSection(),
+
+                const SizedBox(height: 28),
+
+                // Kids' Favorites
+                const KidsFavoritesSection(),
+
+                const SizedBox(height: 28),
+
+                // Featured Events
+                const FeaturedEventsSection(),
+
+                // Footer
+                const AppFooter(),
+              ],
             ),
-
-            const SizedBox(height: 24),
-
-            // Popular Categories
-            const PopularCategoriesSection(),
-
-            const SizedBox(height: 28),
-
-            // Spotlight
-            const SpotlightSection(),
-
-            const SizedBox(height: 28),
-
-            // Best for This Week
-            const BestForWeekSection(),
-
-            const SizedBox(height: 28),
-
-            // Near You
-            const NearYouSection(),
-
-            const SizedBox(height: 4),
-
-            // Trending Now
-            const TrendingNowSection(),
-
-            const SizedBox(height: 28),
-
-            // Kids' Favorites
-            const KidsFavoritesSection(),
-
-            const SizedBox(height: 28),
-
-            // Featured Events
-            const FeaturedEventsSection(),
-
-            // Footer
-            const AppFooter(),
-          ],
-        ),
-      ),
-      bottomNavigationBar: _buildBottomNav(),
-    );
-  }
-
-  Widget _buildBottomNav() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
+          ),
+          // Dynamic status bar background (rendered on top)
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: MediaQuery.of(context).padding.top,
+              color: _statusBarColor,
+            ),
           ),
         ],
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildNavItem(0, Icons.home_rounded, 'Home'),
-              _buildNavItem(1, Icons.explore_outlined, 'Explore'),
-              _buildNavItem(2, Icons.bookmark_outline_rounded, 'Bookings'),
-              _buildNavItem(3, Icons.person_outline_rounded, 'Profile'),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavItem(int index, IconData icon, String label) {
-    final isSelected = _currentNavIndex == index;
-    return GestureDetector(
-      onTap: () => setState(() => _currentNavIndex = index),
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primary.withOpacity(0.12)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 24,
-              color: isSelected ? AppColors.primary : AppColors.textSecondary,
-            ),
-            if (isSelected) ...[
-              const SizedBox(width: 6),
-              Text(
-                label,
-                style: GoogleFonts.poppins(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.primary,
-                ),
-              ),
-            ],
-          ],
-        ),
       ),
     );
   }
