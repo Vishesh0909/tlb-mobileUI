@@ -24,7 +24,7 @@ class PopularCategoriesSection extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
-              childAspectRatio: 1.3,
+              childAspectRatio: 0.95,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),

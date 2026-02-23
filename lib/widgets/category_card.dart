@@ -32,7 +32,7 @@ class CategoryCard extends StatelessWidget {
               ),
               child: Icon(
                 category.icon,
-                size: 28,
+                size: 22,
                 color: Colors.white,
               ),
             ),

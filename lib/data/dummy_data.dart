@@ -70,9 +70,9 @@ class DummyData {
   // Spotlight events
   static const List<EventModel> spotlightEvents = [
     EventModel(
-      title: 'Story Telling',
+      title: 'World Storytelling Day',
       venue: 'Embassy Int. Riding School',
-      imagePath: 'assets/images/story_telling.png',
+      imagePath: 'assets/images/worldstorytelling.jpg',
     ),
     EventModel(
       title: 'Kids Party',
@@ -82,7 +82,7 @@ class DummyData {
     EventModel(
       title: 'Halloween Party',
       venue: 'City Convention Center',
-      imagePath: 'assets/images/halloween_party.png',
+      imagePath: 'assets/images/hallowween.jpg',
     ),
   ];
 
@@ -91,13 +91,13 @@ class DummyData {
     EventModel(
       title: 'Halloween Party',
       venue: 'Embassy Int. Riding School',
-      imagePath: 'assets/images/halloween_party.png',
+      imagePath: 'assets/images/hallowween.jpg',
       rating: 3.0,
       reviewCount: '3.5k reviews',
     ),
     EventModel(
-      title: 'Story Telling',
-      venue: 'Embassy Int. Riding School',
+      title: 'World Book Day',
+      venue: 'Central Library Hall',
       imagePath: 'assets/images/story_telling.png',
       rating: 4.0,
       reviewCount: '10k reviews',
@@ -112,18 +112,18 @@ class DummyData {
       imagePath: 'assets/images/kids_party.png',
     ),
     EventModel(
-      title: 'Halloween Party',
-      venue: 'City Convention Center',
-      imagePath: 'assets/images/halloween_party.png',
+      title: 'Summer Fete',
+      venue: 'Dalston Square',
+      imagePath: 'assets/images/summer_fete.jpg',
     ),
   ];
 
   // Trending Now
   static const List<EventModel> trendingNow = [
     EventModel(
-      title: 'Story Telling',
+      title: 'World Storytelling Day',
       venue: 'Embassy Int. Riding School',
-      imagePath: 'assets/images/story_telling.png',
+      imagePath: 'assets/images/worldstorytelling.jpg',
       tag: 'Program',
       description:
           'Fun stories that spark imagination, build creativity, and make kids love listening and learning.',
@@ -147,8 +147,8 @@ class DummyData {
       price: 200,
     ),
     EventModel(
-      title: 'Story Telling',
-      venue: 'Embassy Int. Riding School',
+      title: 'World Book Day',
+      venue: 'Central Library Hall',
       imagePath: 'assets/images/story_telling.png',
       price: 150,
     ),
@@ -157,15 +157,15 @@ class DummyData {
   // Featured Events
   static const List<EventModel> featuredEvents = [
     EventModel(
-      title: 'Story Telling',
-      venue: 'Embassy Int. Riding School',
+      title: 'World Book Day',
+      venue: 'Central Library Hall',
       imagePath: 'assets/images/story_telling.png',
       isFeatured: true,
     ),
     EventModel(
       title: 'Halloween Party',
-      venue: 'Embassy Int. Riding School',
-      imagePath: 'assets/images/halloween_party.png',
+      venue: 'City Convention Center',
+      imagePath: 'assets/images/hallowween.jpg',
       isFeatured: true,
     ),
   ];

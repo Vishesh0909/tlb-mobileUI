@@ -18,7 +18,7 @@ class KidsFavoritesSection extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         SizedBox(
-          height: 330,
+          height: 355,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),

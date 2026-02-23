@@ -1,5 +1,5 @@
 name: tlb_mobile_ui
-description: "The Little Broadway - Event Booking App"
+description: "Event Booking App"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -13,6 +13,7 @@ dependencies:
   google_fonts: ^6.1.0
   smooth_page_indicator: ^1.1.0
   flutter_rating_bar: ^4.0.1
+  flutter_displaymode: ^0.7.0
 
 dev_dependencies:
   flutter_test:
