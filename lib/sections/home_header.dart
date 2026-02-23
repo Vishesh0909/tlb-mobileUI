@@ -9,70 +9,64 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFFFFD54F),
-            Color(0xFFFFC107),
-            Color(0xFFFFB300),
-          ],
-        ),
         borderRadius: BorderRadius.vertical(
           bottom: Radius.circular(28),
         ),
       ),
-      child: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            // Top decorative clouds
-            Stack(
-              children: [
-                // Cloud shapes using positioned containers
-                Positioned(
-                  top: -20,
-                  left: 30,
-                  child: _buildCloud(60),
+      child: Stack(
+        children: [
+          // Header background image — flipped vertically so clouds appear at top
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(28),
+              ),
+              child: Transform.flip(
+                flipY: true,
+                child: Image.asset(
+                  'assets/images/header.jpg',
+                  fit: BoxFit.cover,
+                  alignment: Alignment.bottomCenter,
                 ),
-                Positioned(
-                  top: -15,
-                  right: 60,
-                  child: _buildCloud(45),
-                ),
-                Positioned(
-                  top: -10,
-                  right: 20,
-                  child: _buildCloud(35),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                  child: Column(
-                    children: [
-                      _buildGreetingRow(),
-                      const SizedBox(height: 14),
-                      _buildSearchBar(),
-                      const SizedBox(height: 16),
-                      _buildCategoryTabs(),
-                      const SizedBox(height: 16),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCloud(double size) {
-    return Container(
-      width: size,
-      height: size * 0.5,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(size * 0.5),
+          ),
+          // Semi-transparent golden overlay for readability
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(28),
+                ),
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    const Color(0xFFFFD54F).withOpacity(0.70),
+                    const Color(0xFFFFC107).withOpacity(0.75),
+                    const Color(0xFFFFB300).withOpacity(0.85),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Column(
+                children: [
+                  _buildGreetingRow(),
+                  const SizedBox(height: 14),
+                  _buildSearchBar(),
+                  const SizedBox(height: 16),
+                  _buildCategoryTabs(),
+                  const SizedBox(height: 16),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -94,8 +88,13 @@ class HomeHeader extends StatelessWidget {
                     color: AppColors.textPrimary,
                   ),
                 ),
-                const SizedBox(width: 4),
-                const Text('👋', style: TextStyle(fontSize: 22)),
+                const SizedBox(width: 6),
+                // Waving hand image
+                Image.asset(
+                  'assets/images/wave_hand.png',
+                  width: 28,
+                  height: 28,
+                ),
               ],
             ),
             const SizedBox(height: 2),
@@ -139,18 +138,19 @@ class HomeHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10),
+            // TLB Logo as profile avatar
             Container(
               width: 38,
               height: 38,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 2),
-                gradient: LinearGradient(
-                  colors: [Colors.brown.shade300, Colors.brown.shade600],
-                ),
               ),
-              child: const ClipOval(
-                child: Icon(Icons.person, color: Colors.white, size: 20),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/tlb_logo.png',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ],
@@ -163,20 +163,20 @@ class HomeHeader extends StatelessWidget {
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: AppColors.searchBarBg,
+        color: const Color(0xFFFFF0C8), // Light golden inner color
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppColors.searchBarBorder, width: 1),
+        border: Border.all(color: Colors.white, width: 2),
       ),
       child: Row(
         children: [
           const SizedBox(width: 16),
-          Icon(Icons.search, color: Colors.grey.shade500, size: 22),
+          const Icon(Icons.search, color: Colors.black, size: 22),
           const SizedBox(width: 10),
           Text(
             'Search...',
             style: GoogleFonts.poppins(
               fontSize: 14,
-              color: Colors.grey.shade500,
+              color: const Color(0xFF9E9E9E), // Greyish placeholder
             ),
           ),
         ],
@@ -186,15 +186,15 @@ class HomeHeader extends StatelessWidget {
 
   Widget _buildCategoryTabs() {
     final tabs = [
-      {'icon': Icons.auto_awesome, 'label': 'For You', 'selected': true},
-      {'icon': Icons.event, 'label': 'Events', 'selected': false},
-      {'icon': Icons.school, 'label': 'Classes', 'selected': false},
-      {'icon': Icons.calendar_month, 'label': 'Program', 'selected': false},
-      {'icon': Icons.location_city, 'label': 'Spaces', 'selected': false},
+      {'image': 'assets/images/foryou.png', 'label': 'For You', 'selected': true},
+      {'image': 'assets/images/events.png', 'label': 'Events', 'selected': false},
+      {'image': 'assets/images/classes.png', 'label': 'Classes', 'selected': false},
+      {'image': 'assets/images/program.png', 'label': 'Program', 'selected': false},
+      {'image': 'assets/images/spaces.png', 'label': 'Spaces', 'selected': false},
     ];
 
     return SizedBox(
-      height: 80,
+      height: 100,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: tabs.length,
@@ -206,16 +206,19 @@ class HomeHeader extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                width: 56,
-                height: 56,
+                width: 68,
+                height: 68,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: isSelected
                       ? AppColors.primary
-                      : Colors.white.withOpacity(0.5),
-                  border: isSelected
-                      ? Border.all(color: Colors.white, width: 2.5)
-                      : null,
+                      : const Color(0xFFFFF0C8).withOpacity(0.7),
+                  border: Border.all(
+                    color: isSelected
+                        ? Colors.white
+                        : const Color(0xFFFFD54F),
+                    width: isSelected ? 2.5 : 1.5,
+                  ),
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
@@ -226,21 +229,24 @@ class HomeHeader extends StatelessWidget {
                         ]
                       : null,
                 ),
-                child: Icon(
-                  tab['icon'] as IconData,
-                  size: 24,
-                  color: isSelected
-                      ? Colors.white
-                      : AppColors.textPrimary,
+                child: ClipOval(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Image.asset(
+                      tab['image'] as String,
+                      fit: BoxFit.contain,
+                      // No color tint — display images in their original colors
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 6),
               Text(
                 tab['label'] as String,
                 style: GoogleFonts.poppins(
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight:
-                      isSelected ? FontWeight.w600 : FontWeight.w500,
+                      isSelected ? FontWeight.w700 : FontWeight.w500,
                   color: AppColors.textPrimary,
                 ),
               ),
