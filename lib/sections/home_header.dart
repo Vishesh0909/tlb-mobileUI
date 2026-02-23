@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/app_colors.dart';
+import '../core/auth_state.dart';
 import '../screens/search_screen.dart';
 import '../screens/notification_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/location_screen.dart';
+import '../screens/login_sheet.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -157,10 +159,16 @@ class HomeHeader extends StatelessWidget {
             const SizedBox(width: 10),
             // Profile avatar
             GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const ProfileScreen()),
-              ),
+              onTap: () {
+                if (AuthState.isLoggedIn.value) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                  );
+                } else {
+                  showLoginSheet(context);
+                }
+              },
               child: Container(
                 width: 38,
                 height: 38,

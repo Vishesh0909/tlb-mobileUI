@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/app_colors.dart';
 import '../models/event_model.dart';
+import '../screens/event_detail_screen.dart';
 
 class EventCardWithRating extends StatelessWidget {
   final EventModel event;
@@ -11,7 +12,12 @@ class EventCardWithRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => EventDetailScreen(event: event)),
+      ),
+      child: Container(
       decoration: BoxDecoration(
         color: AppColors.cardBackground,
         borderRadius: BorderRadius.circular(16),
@@ -81,6 +87,7 @@ class EventCardWithRating extends StatelessWidget {
             ),
           ),
         ],
+      ),
       ),
     );
   }
