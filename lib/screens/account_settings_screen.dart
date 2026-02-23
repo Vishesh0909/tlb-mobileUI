@@ -11,7 +11,7 @@ class AccountSettingsScreen extends StatefulWidget {
 
 class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   bool _whatsappNotifications = false;
-  bool _locationPermission = true;
+  bool _locationPermission = false;
   bool _notificationPermission = false;
 
   @override
