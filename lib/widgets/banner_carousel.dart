@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -20,11 +21,32 @@ class BannerCarousel extends StatefulWidget {
 
 class _BannerCarouselState extends State<BannerCarousel> {
   final PageController _pageController = PageController(viewportFraction: 0.92);
+  Timer? _autoSlideTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startAutoSlide();
+  }
 
   @override
   void dispose() {
+    _autoSlideTimer?.cancel();
     _pageController.dispose();
     super.dispose();
+  }
+
+  void _startAutoSlide() {
+    _autoSlideTimer = Timer.periodic(const Duration(seconds: 3), (_) {
+      if (!_pageController.hasClients) return;
+      final nextPage = ((_pageController.page?.round() ?? 0) + 1) %
+          widget.events.length;
+      _pageController.animateToPage(
+        nextPage,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    });
   }
 
   @override
