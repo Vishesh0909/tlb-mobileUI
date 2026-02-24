@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../core/auth_state.dart';
 import '../models/event_model.dart';
+import 'login_sheet.dart';
 import 'ticket_booking_screen.dart';
 
 class EventDetailScreen extends StatelessWidget {
@@ -394,12 +396,18 @@ class EventDetailScreen extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => TicketBookingScreen(event: event),
-                      ),
-                    ),
+                    onPressed: () {
+                      if (!AuthState.isLoggedIn.value) {
+                        showLoginSheet(context);
+                        return;
+                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => TicketBookingScreen(event: event),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFF6B6B),
                       shape: RoundedRectangleBorder(

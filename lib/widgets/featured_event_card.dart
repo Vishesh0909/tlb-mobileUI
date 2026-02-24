@@ -92,7 +92,7 @@ class FeaturedEventCard extends StatelessWidget {
                   builder: (context, _, __) {
                     final isSaved = SavedEventsState.isSaved(event);
                     return GestureDetector(
-                      onTap: () => SavedEventsState.toggle(event),
+                      onTap: () => SavedEventsState.toggle(event, context),
                       child: Container(
                         padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
