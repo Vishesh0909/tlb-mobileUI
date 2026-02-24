@@ -21,6 +21,7 @@ class SpotlightSection extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
+            addAutomaticKeepAlives: false,
             itemCount: DummyData.spotlightEvents.length,
             separatorBuilder: (_, __) => const SizedBox(width: 14),
             itemBuilder: (context, index) {

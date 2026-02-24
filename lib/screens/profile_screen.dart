@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'bookings_screen.dart';
+import 'saved_events_screen.dart';
 import 'help_centre_screen.dart';
 import 'account_settings_screen.dart';
 
@@ -53,6 +54,17 @@ class ProfileScreen extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const BookingsScreen()),
+            ),
+          ),
+          const Divider(height: 1, indent: 16, endIndent: 16),
+          _buildMenuItem(
+            context,
+            icon: Icons.bookmark_border,
+            title: 'Saved Events',
+            subtitle: 'Events you\'ve bookmarked',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SavedEventsScreen()),
             ),
           ),
           const Divider(height: 1, indent: 16, endIndent: 16),

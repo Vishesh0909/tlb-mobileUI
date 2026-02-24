@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/event_model.dart';
+import 'seat_reservation_screen.dart';
 
 class TicketBookingScreen extends StatefulWidget {
   final EventModel event;
@@ -329,8 +330,11 @@ class _TicketBookingScreenState extends State<TicketBookingScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Proceeding to payment...')),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => SeatReservationScreen(event: widget.event),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(

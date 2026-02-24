@@ -23,6 +23,22 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedTab = 0;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _precacheImages();
+  }
+
+  /// Precache banner and event images to avoid jank on first scroll
+  void _precacheImages() {
+    for (final event in DummyData.bannerEvents) {
+      precacheImage(AssetImage(event.imagePath), context);
+    }
+    for (final event in DummyData.spotlightEvents) {
+      precacheImage(AssetImage(event.imagePath), context);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -37,7 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
           // Scrollable content below — changes based on selected tab
           Expanded(
             child: SingleChildScrollView(
-              key: ValueKey(_selectedTab), // reset scroll on tab change
+              key: ValueKey(_selectedTab),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: _buildContentForTab(),
@@ -54,73 +71,73 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0: // For You — show everything
         return [
           const SizedBox(height: 20),
-          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          RepaintBoundary(child: BannerCarousel(events: DummyData.bannerEvents, height: 220)),
           const SizedBox(height: 24),
-          const PopularCategoriesSection(),
+          const RepaintBoundary(child: PopularCategoriesSection()),
           const SizedBox(height: 28),
-          const SpotlightSection(),
+          const RepaintBoundary(child: SpotlightSection()),
           const SizedBox(height: 28),
-          const BestForWeekSection(),
+          const RepaintBoundary(child: BestForWeekSection()),
           const SizedBox(height: 28),
-          const NearYouSection(),
+          const RepaintBoundary(child: NearYouSection()),
           const SizedBox(height: 4),
-          const TrendingNowSection(),
+          const RepaintBoundary(child: TrendingNowSection()),
           const SizedBox(height: 28),
-          const KidsFavoritesSection(),
+          const RepaintBoundary(child: KidsFavoritesSection()),
           const SizedBox(height: 28),
-          const FeaturedEventsSection(),
+          const RepaintBoundary(child: FeaturedEventsSection()),
           const AppFooter(),
         ];
 
       case 1: // Events
         return [
           const SizedBox(height: 20),
-          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          RepaintBoundary(child: BannerCarousel(events: DummyData.bannerEvents, height: 220)),
           const SizedBox(height: 24),
-          const SpotlightSection(),
+          const RepaintBoundary(child: SpotlightSection()),
           const SizedBox(height: 28),
-          const NearYouSection(),
+          const RepaintBoundary(child: NearYouSection()),
           const SizedBox(height: 28),
-          const FeaturedEventsSection(),
+          const RepaintBoundary(child: FeaturedEventsSection()),
           const AppFooter(),
         ];
 
       case 2: // Classes
         return [
           const SizedBox(height: 20),
-          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          RepaintBoundary(child: BannerCarousel(events: DummyData.bannerEvents, height: 220)),
           const SizedBox(height: 24),
-          const BestForWeekSection(),
+          const RepaintBoundary(child: BestForWeekSection()),
           const SizedBox(height: 28),
-          const TrendingNowSection(),
+          const RepaintBoundary(child: TrendingNowSection()),
           const SizedBox(height: 28),
-          const KidsFavoritesSection(),
+          const RepaintBoundary(child: KidsFavoritesSection()),
           const AppFooter(),
         ];
 
       case 3: // Program
         return [
           const SizedBox(height: 20),
-          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          RepaintBoundary(child: BannerCarousel(events: DummyData.bannerEvents, height: 220)),
           const SizedBox(height: 24),
-          const TrendingNowSection(),
+          const RepaintBoundary(child: TrendingNowSection()),
           const SizedBox(height: 28),
-          const SpotlightSection(),
+          const RepaintBoundary(child: SpotlightSection()),
           const SizedBox(height: 28),
-          const FeaturedEventsSection(),
+          const RepaintBoundary(child: FeaturedEventsSection()),
           const AppFooter(),
         ];
 
       case 4: // Spaces
         return [
           const SizedBox(height: 20),
-          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          RepaintBoundary(child: BannerCarousel(events: DummyData.bannerEvents, height: 220)),
           const SizedBox(height: 24),
-          const NearYouSection(),
+          const RepaintBoundary(child: NearYouSection()),
           const SizedBox(height: 28),
-          const BestForWeekSection(),
+          const RepaintBoundary(child: BestForWeekSection()),
           const SizedBox(height: 28),
-          const PopularCategoriesSection(),
+          const RepaintBoundary(child: PopularCategoriesSection()),
           const AppFooter(),
         ];
 

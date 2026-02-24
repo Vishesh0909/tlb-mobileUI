@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/app_colors.dart';
+import '../core/saved_events_state.dart';
 import '../models/event_model.dart';
 import '../screens/event_detail_screen.dart';
 
@@ -24,89 +25,119 @@ class EventCard extends StatelessWidget {
         MaterialPageRoute(builder: (_) => EventDetailScreen(event: event)),
       ),
       child: Container(
-      width: width,
-      decoration: BoxDecoration(
-        color: AppColors.cardBackground,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.asset(
-              event.imagePath,
-              width: width,
-              height: imageHeight,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: width,
-                  height: imageHeight,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.primary.withOpacity(0.3),
-                        AppColors.primaryLight.withOpacity(0.3),
-                      ],
-                    ),
-                  ),
-                  child: const Icon(Icons.event, size: 48, color: AppColors.primary),
-                );
-              },
+        width: width,
+        decoration: BoxDecoration(
+          color: AppColors.cardBackground,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
-          ),
-          // Content
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Image with bookmark
+            Stack(
               children: [
-                Text(
-                  event.title,
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.location_on_outlined,
-                      size: 14,
-                      color: AppColors.textSecondary,
-                    ),
-                    const SizedBox(width: 4),
-                    Expanded(
-                      child: Text(
-                        event.venue,
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          color: AppColors.textSecondary,
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                  child: Image.asset(
+                    event.imagePath,
+                    width: width,
+                    height: imageHeight,
+                    fit: BoxFit.cover,
+                    cacheWidth: (width * 2).toInt(),
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        width: width,
+                        height: imageHeight,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.primary.withOpacity(0.3),
+                              AppColors.primaryLight.withOpacity(0.3),
+                            ],
+                          ),
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
+                        child: const Icon(Icons.event, size: 48, color: AppColors.primary),
+                      );
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: 8,
+                  right: 8,
+                  child: ValueListenableBuilder<List<EventModel>>(
+                    valueListenable: SavedEventsState.savedEvents,
+                    builder: (context, _, __) {
+                      final isSaved = SavedEventsState.isSaved(event);
+                      return GestureDetector(
+                        onTap: () => SavedEventsState.toggle(event, context),
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.35),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            isSaved ? Icons.bookmark : Icons.bookmark_border,
+                            size: 18,
+                            color: isSaved ? const Color(0xFFFFB902) : Colors.white,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
+            // Content
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    event.title,
+                    style: GoogleFonts.poppins(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textPrimary,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.location_on_outlined,
+                        size: 14,
+                        color: AppColors.textSecondary,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          event.venue,
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: AppColors.textSecondary,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

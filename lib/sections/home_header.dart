@@ -94,7 +94,7 @@ class HomeHeader extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Hello World',
+                  'Welcome User',
                   style: GoogleFonts.poppins(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
