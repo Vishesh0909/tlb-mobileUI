@@ -12,8 +12,15 @@ import '../sections/kids_favorites_section.dart';
 import '../sections/featured_events_section.dart';
 import '../sections/app_footer.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedTab = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,65 +29,103 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           // Fixed header at top — never scrolls
-          const HomeHeader(),
+          HomeHeader(
+            selectedTab: _selectedTab,
+            onTabChanged: (index) => setState(() => _selectedTab = index),
+          ),
 
-          // Scrollable content below
+          // Scrollable content below — changes based on selected tab
           Expanded(
             child: SingleChildScrollView(
+              key: ValueKey(_selectedTab), // reset scroll on tab change
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-
-                  // Featured Banner Carousel
-                  BannerCarousel(
-                    events: DummyData.bannerEvents,
-                    height: 220,
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  // Popular Categories
-                  const PopularCategoriesSection(),
-
-                  const SizedBox(height: 28),
-
-                  // Spotlight
-                  const SpotlightSection(),
-
-                  const SizedBox(height: 28),
-
-                  // Best for This Week
-                  const BestForWeekSection(),
-
-                  const SizedBox(height: 28),
-
-                  // Near You
-                  const NearYouSection(),
-
-                  const SizedBox(height: 4),
-
-                  // Trending Now
-                  const TrendingNowSection(),
-
-                  const SizedBox(height: 28),
-
-                  // Kids' Favorites
-                  const KidsFavoritesSection(),
-
-                  const SizedBox(height: 28),
-
-                  // Featured Events
-                  const FeaturedEventsSection(),
-
-                  // Footer
-                  const AppFooter(),
-                ],
+                children: _buildContentForTab(),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  List<Widget> _buildContentForTab() {
+    switch (_selectedTab) {
+      case 0: // For You — show everything
+        return [
+          const SizedBox(height: 20),
+          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          const SizedBox(height: 24),
+          const PopularCategoriesSection(),
+          const SizedBox(height: 28),
+          const SpotlightSection(),
+          const SizedBox(height: 28),
+          const BestForWeekSection(),
+          const SizedBox(height: 28),
+          const NearYouSection(),
+          const SizedBox(height: 4),
+          const TrendingNowSection(),
+          const SizedBox(height: 28),
+          const KidsFavoritesSection(),
+          const SizedBox(height: 28),
+          const FeaturedEventsSection(),
+          const AppFooter(),
+        ];
+
+      case 1: // Events
+        return [
+          const SizedBox(height: 20),
+          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          const SizedBox(height: 24),
+          const SpotlightSection(),
+          const SizedBox(height: 28),
+          const NearYouSection(),
+          const SizedBox(height: 28),
+          const FeaturedEventsSection(),
+          const AppFooter(),
+        ];
+
+      case 2: // Classes
+        return [
+          const SizedBox(height: 20),
+          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          const SizedBox(height: 24),
+          const BestForWeekSection(),
+          const SizedBox(height: 28),
+          const TrendingNowSection(),
+          const SizedBox(height: 28),
+          const KidsFavoritesSection(),
+          const AppFooter(),
+        ];
+
+      case 3: // Program
+        return [
+          const SizedBox(height: 20),
+          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          const SizedBox(height: 24),
+          const TrendingNowSection(),
+          const SizedBox(height: 28),
+          const SpotlightSection(),
+          const SizedBox(height: 28),
+          const FeaturedEventsSection(),
+          const AppFooter(),
+        ];
+
+      case 4: // Spaces
+        return [
+          const SizedBox(height: 20),
+          BannerCarousel(events: DummyData.bannerEvents, height: 220),
+          const SizedBox(height: 24),
+          const NearYouSection(),
+          const SizedBox(height: 28),
+          const BestForWeekSection(),
+          const SizedBox(height: 28),
+          const PopularCategoriesSection(),
+          const AppFooter(),
+        ];
+
+      default:
+        return [];
+    }
   }
 }

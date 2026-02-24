@@ -92,15 +92,6 @@ class CategoryEventsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              title: Text(
-                category.name.replaceAll('\n', ' '),
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                ),
-              ),
-              centerTitle: true,
             ),
           ),
 

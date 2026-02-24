@@ -13,42 +13,13 @@ class AppFooter extends StatelessWidget {
         children: [
           const Divider(color: AppColors.divider, thickness: 1),
           const SizedBox(height: 16),
-          Text(
-            'The Little Broadway',
-            style: GoogleFonts.poppins(
-              fontSize: 20,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textSecondary.withOpacity(0.5),
-              letterSpacing: 1,
-            ),
-          ),
-          const SizedBox(height: 12),
-          const Divider(color: AppColors.divider, thickness: 1),
-          const SizedBox(height: 16),
           // TLB Logo
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.primary,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withOpacity(0.3),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Text(
-                'tlb',
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
-                ),
-              ),
+          ClipOval(
+            child: Image.asset(
+              'resources- tlb-ui/tlbAppIcon.png',
+              width: 60,
+              height: 60,
+              fit: BoxFit.cover,
             ),
           ),
           const SizedBox(height: 6),
