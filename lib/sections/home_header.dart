@@ -9,7 +9,14 @@ import '../screens/location_screen.dart';
 import '../screens/login_sheet.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({super.key});
+  final int selectedTab;
+  final ValueChanged<int> onTabChanged;
+
+  const HomeHeader({
+    super.key,
+    required this.selectedTab,
+    required this.onTabChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +55,9 @@ class HomeHeader extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    const Color(0xFFFFD54F).withOpacity(0.70),
-                    const Color(0xFFFFC107).withOpacity(0.75),
-                    const Color(0xFFFFB300).withOpacity(0.85),
+                    const Color(0xFFFFB902).withOpacity(0.85),
+                    const Color(0xFFFFB902).withOpacity(0.90),
+                    const Color(0xFFFFB902).withOpacity(0.95),
                   ],
                 ),
               ),
@@ -223,67 +230,72 @@ class HomeHeader extends StatelessWidget {
 
   Widget _buildCategoryTabs() {
     final tabs = [
-      {'image': 'assets/images/foryou.png', 'label': 'For You', 'selected': true},
-      {'image': 'assets/images/events.png', 'label': 'Events', 'selected': false},
-      {'image': 'assets/images/classes.png', 'label': 'Classes', 'selected': false},
-      {'image': 'assets/images/program.png', 'label': 'Program', 'selected': false},
-      {'image': 'assets/images/spaces.png', 'label': 'Spaces', 'selected': false},
+      {'image': 'assets/images/foryou.png', 'label': 'For You'},
+      {'image': 'assets/images/events.png', 'label': 'Events'},
+      {'image': 'assets/images/classes.png', 'label': 'Classes'},
+      {'image': 'assets/images/program.png', 'label': 'Program'},
+      {'image': 'assets/images/spaces.png', 'label': 'Spaces'},
     ];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: tabs.map((tab) {
-        final isSelected = tab['selected'] as bool;
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isSelected
-                    ? AppColors.primary
-                    : const Color(0xFFFFF0C8).withOpacity(0.7),
-                border: Border.all(
+      children: List.generate(tabs.length, (index) {
+        final tab = tabs[index];
+        final isSelected = index == selectedTab;
+        return GestureDetector(
+          onTap: () => onTabChanged(index),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
                   color: isSelected
-                      ? Colors.white
-                      : const Color(0xFFFFD54F),
-                  width: isSelected ? 2.5 : 1.5,
+                      ? AppColors.primary
+                      : const Color(0xFFFFF0C8).withOpacity(0.7),
+                  border: Border.all(
+                    color: isSelected
+                        ? Colors.white
+                        : const Color(0xFFFFD54F),
+                    width: isSelected ? 2.5 : 1.5,
+                  ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: AppColors.primary.withOpacity(0.3),
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
+                          ),
+                        ]
+                      : null,
                 ),
-                boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: AppColors.primary.withOpacity(0.3),
-                          blurRadius: 8,
-                          offset: const Offset(0, 3),
-                        ),
-                      ]
-                    : null,
-              ),
-              child: ClipOval(
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Image.asset(
-                    tab['image'] as String,
-                    fit: BoxFit.contain,
+                child: ClipOval(
+                  child: Padding(
+                    padding: const EdgeInsets.all(6),
+                    child: Image.asset(
+                      tab['image'] as String,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              tab['label'] as String,
-              style: GoogleFonts.poppins(
-                fontSize: 11,
-                fontWeight:
-                    isSelected ? FontWeight.w700 : FontWeight.w500,
-                color: AppColors.textPrimary,
+              const SizedBox(height: 6),
+              Text(
+                tab['label'] as String,
+                style: GoogleFonts.poppins(
+                  fontSize: 11,
+                  fontWeight:
+                      isSelected ? FontWeight.w700 : FontWeight.w500,
+                  color: AppColors.textPrimary,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
-      }).toList(),
+      }),
     );
   }
 }
