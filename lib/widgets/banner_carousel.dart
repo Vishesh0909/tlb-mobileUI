@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../core/app_colors.dart';
 import '../models/event_model.dart';
+import '../screens/event_detail_screen.dart';
 
 class BannerCarousel extends StatefulWidget {
   final List<EventModel> events;
@@ -60,7 +61,12 @@ class _BannerCarouselState extends State<BannerCarousel> {
             itemCount: widget.events.length,
             itemBuilder: (context, index) {
               final event = widget.events[index];
-              return Padding(
+              return GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => EventDetailScreen(event: event)),
+                ),
+                child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
@@ -135,6 +141,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
                       ),
                     ],
                   ),
+                ),
                 ),
               );
             },
