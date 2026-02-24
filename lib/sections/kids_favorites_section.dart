@@ -22,6 +22,7 @@ class KidsFavoritesSection extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
+            addAutomaticKeepAlives: false,
             itemCount: DummyData.kidsFavorites.length,
             separatorBuilder: (_, __) => const SizedBox(width: 14),
             itemBuilder: (context, index) {

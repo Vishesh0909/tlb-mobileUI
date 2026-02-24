@@ -50,6 +50,7 @@ class EventCard extends StatelessWidget {
                     width: width,
                     height: imageHeight,
                     fit: BoxFit.cover,
+                    cacheWidth: (width * 2).toInt(),
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
                         width: width,

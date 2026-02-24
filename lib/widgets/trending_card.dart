@@ -87,6 +87,7 @@ class _TrendingCardState extends State<TrendingCard> {
                           width: 130,
                           height: 180,
                           fit: BoxFit.cover,
+                          cacheWidth: 260,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
                               width: 130,
