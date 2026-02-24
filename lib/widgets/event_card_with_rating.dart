@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../core/app_colors.dart';
+import '../core/saved_events_state.dart';
 import '../models/event_model.dart';
 import '../screens/event_detail_screen.dart';
 
@@ -32,22 +33,51 @@ class EventCardWithRating extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Image.asset(
-                event.imagePath,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    color: AppColors.primary.withOpacity(0.2),
-                    child: const Icon(Icons.event, size: 40),
-                  );
-                },
+          // Image with bookmark
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.asset(
+                    event.imagePath,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: AppColors.primary.withOpacity(0.2),
+                        child: const Icon(Icons.event, size: 40),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
+              Positioned(
+                top: 8,
+                right: 8,
+                child: ValueListenableBuilder<List<EventModel>>(
+                  valueListenable: SavedEventsState.savedEvents,
+                  builder: (context, _, __) {
+                    final isSaved = SavedEventsState.isSaved(event);
+                    return GestureDetector(
+                      onTap: () => SavedEventsState.toggle(event),
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.35),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          isSaved ? Icons.bookmark : Icons.bookmark_border,
+                          size: 18,
+                          color: isSaved ? const Color(0xFFFFB902) : Colors.white,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(10),
